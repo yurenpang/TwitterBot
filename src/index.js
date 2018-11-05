@@ -1,12 +1,40 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Twitter from 'twitter';
 import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+class ShowTweet extends React.Component {
+	constructor() {
+		super();
+		this.Client = new Twitter({
+			consumer_key: 'TNB2MJIezNoqifmPgR1XwBlCl',
+		  consumer_secret: 'G9RIdrdUQ0l2AI1ElVSjscKi0rpZdhWevHakFWLE3NkfR9jC5H',
+		  access_token_key: '716908535729131520-2Te05zRGis7hBtiiV5nzB0fR1Sxh5cW',
+		  access_token_secret: 'mK9gRzArOoLiqmAspt0qpUCqC3X1DRnSpY2dY5fI1CWvQ'
+		});
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister();
+		this.searchTwitter = this.searchTwitter.bind(this);
+	}
+
+	searchTwitter(){
+	   this.Client.get('search/tweets', {q: 'node.js'}, function(error, tweets, response) {
+	   console.log(tweets);
+	 });
+	}
+
+  render() {
+		return (
+      <div className="App">
+        <header className="App-header">
+          <h1 className="App-title">The Test App</h1>
+        </header>
+        <button style = {{height: "50px", width: "150px"}} onClick = {this.searchTwitter}> CLICK ME </button>
+      </div>
+    );
+	}
+}
+
+
+//The first is the component to render
+//The second is the element in which the component should be rendered. “Mounts” it onto the real DOM element mountNode (special variable)
+ReactDOM.render(<ShowTweet />, document.getElementById('root'));
